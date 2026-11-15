@@ -1,70 +1,81 @@
-# Getting Started with Create React App
+# Student List & Favourites App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React web application built with **React Context API** and **Tailwind CSS** that lets users view a list of students, add students to a favourites list, and remove them while keeping UI states synchronized across pages.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Student Directory (`Liststudents`)**: Displays all registered students with clean, centered card layouts.
+- **Add to Favourites**: Clicking **Add to Favourites** adds the student to the shared favourites state, changes the button color to violet, updates the label to **Added**, and disables the button to prevent duplicate entries.
+- **Favorite Students View (`Favstudents`)**: Displays only the students marked as favourites, or shows an empty-state message when none are added.
+- **Remove & Re-enable**: Clicking **Remove** on the Favorite Students page deletes the student from the favourites list and automatically re-enables their **Add to Favourites** button on the main list.
+- **Global State Management (`Listcontextprovider`)**: Uses React Context (`useContext` and `useState`) so data and button states stay synced when switching between pages.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+- **React** (Functional Components, `useState`, `useContext`, `createContext`)
+- **React Router** (Navigation between Student List and Favorite Students pages)
+- **Tailwind CSS** (Responsive layout and utility styling)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Project Structure
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```text
+src/
+├── components/
+│   ├── Header.jsx                # Top navigation bar
+│   ├── Liststudents.jsx          # Main student list with Add to Favourites buttons
+│   ├── favstudents.jsx           # Filtered list of favourite students with Remove buttons
+│   └── Listcontextprovider.jsx   # Global Context managing student list and favourites state
+├── App.js                        # Main app routing and context wrapper
+└── index.js                      # Application entry point
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting Started
 
-### `npm run eject`
+### Prerequisites
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Node.js** (v16 or higher recommended)
+- **npm** or **yarn**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com
+   cd student-favourites-app
+   ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-## Learn More
+3. **Start the development server**
+   ```bash
+   npm start
+   ```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+4. Open [http://localhost:3000](http://localhost:3000) in your browser to view the app.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## How State Synchronization Works
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **`Listcontextprovider.jsx`** stores `list` (all students) and `isfav` (an array of favourited student indexes).
+2. **`addfav(index)`** appends the clicked student's index to `isfav` using `setfav([...isfav, index])`.
+3. **`Liststudents.jsx`** checks `isfav.includes(index)` to conditionally disable the button, change its text to `"Added"`, and switch its background color.
+4. **`removefav(index)`** filters out the removed index from `isfav` (`isfav.filter(item => item !== index)`), immediately updating both pages.
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Future Improvements
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Add a form component (`Addlist.jsx`) to dynamically add new students to the directory.
+- Persist student and favourite lists using `localStorage` so data stays saved after page refreshes.
