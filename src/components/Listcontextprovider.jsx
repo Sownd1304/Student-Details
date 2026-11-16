@@ -5,7 +5,7 @@ function ListContextProvider(data){
     const[list,addlist]=useState([{name:"Sownd",rollnum:"22"}])
      const[isfav,setfav]=useState([])
     function addfav(index){
-        list.filter(function(addid,i){
+        list.forEach(function(addid,i){
             if(index===i){
                  setfav([...isfav,index])
                 
